@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import pickle
 import logging
+import yaml
 from sklearn.ensemble import RandomForestClassifier
 
 log_dir = 'logs'
@@ -24,6 +25,23 @@ file_handler.setFormatter(formatter)
 
 logger.addHandler(console_handler)
 logger.addHandler(file_handler)
+
+def load_params(params_path: str) -> dict:
+    """Load parameters from a YAML file."""
+    try:
+        with open(params_path, 'r') as file:
+            params = yaml.safe_load(file)
+        logger.debug('Parameters retrieved from %s', params_path)
+        return params
+    except FileNotFoundError:
+        logger.error('File not found: %s', params_path)
+        raise
+    except yaml.YAMLError as e:
+        logger.error('YAML error: %s', e)
+        raise
+    except Exception as e:
+        logger.error('Unexpected error: %s', e)
+        raise
 
 def load_data(file_path: str) -> pd.DataFrame:
     """
@@ -85,13 +103,15 @@ def main():
     """
     Main function to execute the model training pipeline.
     """
+    params = load_params('params.yaml')['model_training']
+    
     try:
-        params = {'n_estimators': 25, 'random_state': 2}
+        #params = {'n_estimators': 25, 'random_state': 2}
         train_data = load_data('data/processed/train_tfidf.csv')
         x_train = train_data.iloc[:, :-1].values
         y_train = train_data.iloc[:, -1].values
 
-        clf = train_model(x_train, y_train, params)
+        clf = train_model(x_train, y_train, params) # type: ignore
 
         model_path = 'models/model.pkl'
         save_model(clf, model_path)
