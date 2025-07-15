@@ -1,0 +1,17 @@
+cmd: python src/feature_engineering.py
+deps:
+- path: data/interim
+  hash: md5
+  md5: d3f80ea917209a657caed01201ee2780.dir
+  size: 254818
+  nfiles: 2
+- path: src/feature_engineering.py
+  hash: md5
+  md5: 54b62545cb65cfe09347ffc108bc11a6
+  size: 3120
+outs:
+- path: data/processed
+  hash: md5
+  md5: 7b800f3ef5911a14f39af9b874617e9c.dir
+  size: 1174741
+  nfiles: 2
