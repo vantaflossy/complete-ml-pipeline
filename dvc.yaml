@@ -41,9 +41,9 @@ stages:
     metrics:
     - metrics/evaluation_metrics.json
 params:
- - dvclive/params.yaml
-# metrics:
-# - dvclive/metrics.json
-# plots:
-# - dvclive/plots/metrics:
-#     x: step
+- dvclive/params.yaml
+metrics:
+- dvclive/metrics.json
+plots:
+- dvclive/plots/metrics:
+    x: step
